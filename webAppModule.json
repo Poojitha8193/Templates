@@ -1,80 +1,27 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-      "location": { "type": "string" },
-      "githubRepoUrl": { "type": "string" }
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "webAppName": { "type": "string" }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2022-03-01",
+      "name": "libraryServicePlan",
+      "location": "Esat us 2",
+      "sku": { "name": "B1", "tier": "Basic" },
+      "properties": { "reserved": false }
     },
-    "resources": [
-      {
-        "type": "Microsoft.Web/sites",
-        "apiVersion": "2022-03-01",
-        "name": "studentwebapp",
-        "location": "Central Canada",
-        "properties": {
-          "siteConfig": {
-            "appSettings": []
-          },
-          "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'web-plan')]"
-        }
-      },
-      {
-        "type": "Microsoft.Web/sites/sourcecontrols",
-        "apiVersion": "2022-03-01",
-        "name": "studentwebapp/web",
-        "dependsOn": ["[resourceId('Microsoft.Web/sites',studentwebapp"],
-        "properties": {
-          "repoUrl": "https://github.com/Poojitha8193/student",
-          "branch": "main",
-          "isManualIntegration": true
-        }
-      },
-      {
-        "type": "Microsoft.Web/sites",
-        "apiVersion": "2022-03-01",
-        "name": "courrsewebapp",
-        "location": "Central Canada",
-        "properties": {
-          "siteConfig": {
-            "appSettings": []
-          },
-          "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'web2')]"
-        }
-      },
-      {
-        "type": "Microsoft.Web/sites/sourcecontrols",
-        "apiVersion": "2022-03-01",
-        "name": "courrsewebapp/web",
-        "dependsOn": ["[resourceId('Microsoft.Web/sites',courrsewebapp"],
-        "properties": {
-          "repoUrl": "https://github.com/Poojitha8193/course",
-          "branch": "main",
-          "isManualIntegration": true
-        }
-      },
-      {
-        "type": "Microsoft.Web/sites",
-        "apiVersion": "2022-03-01",
-        "name": "enrollmentwebapp",
-        "location": "Central US",
-        "properties": {
-          "siteConfig": {
-            "appSettings": []
-          },
-          "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'web-plan')]"
-        }
-      },
-      {
-        "type": "Microsoft.Web/sites/sourcecontrols",
-        "apiVersion": "2022-03-01",
-        "name": "enrollmentwebapp/web",
-        "dependsOn": ["[resourceId('Microsoft.Web/sites',enrollmentwebapp"],
-        "properties": {
-          "repoUrl": "https://github.com/Poojitha8193/enrollment",
-          "branch": "main",
-          "isManualIntegration": true
-        }
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2022-03-01",
+      "name": "[parameters('webAppName')]",
+      "location": "East us 2",
+      "dependsOn": ["Microsoft.Web/serverfarms/libraryServicePlan"],
+      "properties": {
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'libraryServicePlan')]"
       }
-    ]
-  }
-  
+    }
+  ]
+}
