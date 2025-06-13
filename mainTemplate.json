@@ -1,57 +1,84 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "resources": [
-      {
-        "name": "webAppDeployment",
-        "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2021-04-01",
-        "properties": {
-          "mode": "Incremental",
-          "templateLink": {
-            "uri": "https://github.com/Poojitha8193/Templates/webAppModule.json",
-            "location": { "value": "Central Canada" },
-            "contentVersion": "1.0.0.0"
-          }
-        }
-      },
-      {
-        "name": "sqlDeployment",
-        "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2021-04-01",
-        "properties": {
-          "mode": "Incremental",
-          "location": { "value": "East US 2" },
-          "templateLink": {
-            "uri": "https://github.com/Poojitha8193/Templates/sqlDatabaseModule.json",
-            "contentVersion": "1.0.0.0"
-          }
-         
-        }
-      },
-      {
-        "name": "vmDeployment",
-        "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2021-04-01",
-        "properties": {
-          "mode": "Incremental",
-          "location": { "value": "East US 2" },
-          "templateLink": {
-            "uri": "https://github.com/Poojitha8193/Templates/vmModule.json",
-            "contentVersion": "1.0.0.0"
-          }
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "resources": [
+    {
+      "name": "sqlDatabaseDeployment",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://github.com/Poojitha8193/Templates/edit/main/sqlDatabaseModule.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "sqlServerName": { "value": "my-sql-server-unique" },
+          "sqlAdminUser": { "value": "sqladmin" },
+          "sqlAdminPassword": { "value": "YourStrongP@ssword!" },
+          "sqlDbName": { "value": "librarydb" }
         }
       }
-    ],
-    "parameters": {
-      "location": {
-        "type": "string",
-        "defaultValue": "East US 2"
-      },
-      "githubRepoUrl": {
-        "type": "string",
-        "defaultValue": "https://github.com/Poojitha8193/Templates"
+    },
+    {
+      "name": "storage55",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://github.com/Poojitha8193/Templates/edit/main/vmModule.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "storageAccountName": { "value": "librarystaticweb" }
+        }
+      }
+    },
+    {
+      "name": "books55",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://github.com/Poojitha8193/Templates/edit/main/webAppModule.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "webAppName": { "value": "bookservice-app" }
+        }
+      }
+    },
+    {
+      "name": "user55",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://github.com/Poojitha8193/Templates/edit/main/webAppModule.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "webAppName": { "value": "userservice-app" }
+        }
+      }
+    },
+    {
+      "name": "borrow",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://github.com/Poojitha8193/Templates/edit/main/webAppModule.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "webAppName": { "value": "borrowservice-app" }
+        }
       }
     }
-  }
-  
+  ]
+}
